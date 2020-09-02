@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Product Comparison</title>
+</head>
+<body>
+
+<h1>Product Comparison</h1>
+
+<form>
+  <label for="fproduct">First Product:</label>
+  <input type="text" id="fproduct" name="fproduct" data-bind="value: queryKey"><br><br>
+  <label for="sproduct">Second Product:</label>
+  <input type="text" id="sproduct" name="sproduct"><br><br>
+  <p>
+  <!-- <input type="submit" name="submitbutton" onclick="alert('you clicked the button') " value="Submit"> -->
+  <button id='submitbutton'>Submit</button>
+</form>
+
+<p>Click the "Submit" button and our webscapers will ask the critics!</p>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script type="text/javascript">
+	var api_url = 'https://bfjrougxi0.execute-api.us-west-1.amazonaws.com/test/getsentiment'
+	$('#submitbutton').on('click', function(){
+		$.ajax({
+			type: 'GET',
+			url: api_url,
+			data: { "query": self.queryKey() },
+			success: function(data){
+				$('#sentiment').html('');
+
+				data.items
+			}
+		})
+	})
+
+</body>
+</html>
