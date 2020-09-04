@@ -2,38 +2,118 @@
 <html>
 <head>
 	<title>Product Comparison</title>
+	<meta charset="utf-8"/>
 </head>
 <body>
 
-<h1>Product Comparison</h1>
+	<h1>Product Review Comparison</h1>
 
-<form>
-  <label for="fproduct">First Product:</label>
-  <input type="text" id="fproduct" name="fproduct" data-bind="value: queryKey"><br><br>
-  <label for="sproduct">Second Product:</label>
-  <input type="text" id="sproduct" name="sproduct"><br><br>
-  <p>
-  <!-- <input type="submit" name="submitbutton" onclick="alert('you clicked the button') " value="Submit"> -->
-  <button id='submitbutton'>Submit</button>
-</form>
+	<p> This is a tool that you can use to compare how positive the reviews are of two products. Enter your two products, hit search, and it will read the most popular reviews of each item and return a number representing how positive the reviews of each product are. You are encouraged to be as specific with your product names as you can be.</p>
 
-<p>Click the "Submit" button and our webscapers will ask the critics!</p>
+	<table>
+        <tr>
+            <!-- <td>Search Key(EmailID):</td> -->
+            <!-- <td><input type="text" id="txtSearchKey" data-bind="value : searchKey"/></td> -->
+            <td><label for="msg1">First Product Name: </label></td>
+            <td><input id="msg1"></input></td>
+            <td><label for="msg2">Second Product Name: </label></td>
+            <td><input id="msg2"></input></td>
+        </tr>
+        <tr>
+		    <!-- <td><input type="button" value="GetCustomerDetails" data-bind="click: $root.getCustomerDetails()"/></td> -->
+		    <td><button id='submitButton'>Search</button></td>
+		</tr>
+    </table>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script type="text/javascript">
-	var api_url = 'https://bfjrougxi0.execute-api.us-west-1.amazonaws.com/test/getsentiment'
-	$('#submitbutton').on('click', function(){
-		$.ajax({
-			type: 'GET',
-			url: api_url,
-			data: { "query": self.queryKey() },
-			success: function(data){
-				$('#sentiment').html('');
+    <br />
+  
+    <table id="Product Sentiment">
+        <thead>
+            <tr>
+                <td><p>First Product Sentiment: </td>
+                <td><p id=output1></p>
+            </tr>
+            <tr>
+                <td><p>Second Product Sentiment: </td>
+                <td><p id=output2></p>
+            </tr>
+          
+        </thead>
+      
+        </table>
 
-				data.items
-			}
-		})
-	})
+    <br />
+
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script type='text/javascript' src='knockout-3.5.1.js'></script>
+	<script type="text/javascript">
+       	
+        //  $(document).ready(function() {
+
+        //     var customerViewModel = function() {
+        //     var self = this;
+        //     self.firstName = ko.observable("");
+        //     // self.lastName = ko.observable("");
+        //     // self.emailId = ko.observable("");
+        //     self.searchKey = ko.observable("");
+
+        //     self.getCustomerDetails = function () {              
+        //         $.ajax({
+        //             url: 'https://bfjrougxi0.execute-api.us-west-1.amazonaws.com/test/getsentiment',
+        //             cache: false,
+        //             type: 'GET',                   
+        //             data: { "query": self.searchKey() },
+        //             success: function (data) {              
+        //                 self.firstName(data.body.sentiment)
+        //                 // self.lastName(data.Item.LastName),l
+        //                 // self.emailId(data.Item.EmailID)
+        //             }
+        //         });
+        //     }
+        // }
+
+        //     var viewModel = new customerViewModel();
+        //     ko.applyBindings(viewModel);
+        //  });
+        $(document).ready(function(){
+        	$("#output1").hide()
+        	$("#output2").hide()
+        })
+        var api_url = 'https://bfjrougxi0.execute-api.us-west-1.amazonaws.com/test/getsentiment'
+        $('#submitButton').on('click', function(){
+        	$.when(
+        		console.log("request sent..."),
+	        	$.ajax({
+	        		url: api_url,
+	        		cache: false,
+	        		type: 'GET',
+		        	data: {"query": $('#msg1').val()},
+		        	// contentType: "application/json",
+		        	success: function(data){
+		        		var sentiment = JSON.parse(data.body).sentiment
+		        		console.log(sentiment)
+		        		document.getElementById("output1").innerHTML = sentiment
+		        	}
+	        	}),
+	        	$.ajax({
+	        		url: api_url,
+	        		cache: false,
+	        		type: 'GET',
+		        	data: {"query": $('#msg2').val()},
+		        	// contentType: "application/json",
+		        	success: function(data){
+		        		var sentiment = JSON.parse(data.body).sentiment
+		        		console.log(sentiment)
+		        		document.getElementById("output2").innerHTML = sentiment		        	}
+	        	}),
+	        ).then(function(){
+	        	$("#output1").show();
+	        	$("#output2").show();
+	        })
+        })
+
+       
+    </script>
 
 </body>
 </html>

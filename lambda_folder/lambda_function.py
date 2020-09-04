@@ -163,7 +163,7 @@ def prodSent(query):
 
 def lambda_handler(event, context):
 	#parse out query string params
-	query = event['queryStringParameters']['query']
+	query = event['query']
 
 	print(event)
 
@@ -179,6 +179,8 @@ def lambda_handler(event, context):
 	responseObject = {}
 	responseObject['statusCode'] = 200
 	responseObject['headers'] = {}
+	responseObject['headers']['Access-Control-Allow-Origin'] = "*"
+	responseObject['headers']['Access-Control-Allow-Credentials'] = True
 	responseObject['headers']['Content-Type'] = 'application/json'
 	responseObject['body'] = json.dumps(transactionResponse)
 
@@ -187,6 +189,8 @@ def lambda_handler(event, context):
 
 # main:
 # print("Here is the avg sentiment: ", prodSent("Apple MacBook Pro 2020"))
+# event = {"query":"gshock"}
+# print(lambda_handler(event, context = None))
 
 # html = get_url("https://www.anandtech.com/show/7418/hp-chromebook-11-review")
 
