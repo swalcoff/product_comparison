@@ -1,0 +1,46 @@
+body{
+  background-color:#f4f4f4;
+  color:#383737;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height:1.6em;
+}
+
+input[type=text]{
+  width:100%;
+  border:2px solid #aaa;
+  border-radius:4px;
+  margin:8px 0;
+  outline:none;
+  padding:8px;
+  box-sizing:border-box;
+  transition:.3s;
+}
+
+input[type=text]:focus{
+  border-color:dodgerBlue;
+  box-shadow:0 0 8px 0 dodgerBlue;
+}
+
+.btn{
+  display: inline-block;
+  border: none;
+  padding: 6px 12px;
+  margin-bottom: 0;
+  font-size: 14px;
+  font-weight: normal;
+  text-align: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-sm{
+  padding: 10px 20px;
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+.btn-success{
+  color: #fff;
+  background-color: #4e80c2;
+  border-color:#00ff00
+}
